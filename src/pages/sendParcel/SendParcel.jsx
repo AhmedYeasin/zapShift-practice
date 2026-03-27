@@ -14,10 +14,12 @@ const SendParcel = () => {
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
   const senderRegion = watch("senderRegion");
-
+ console.log("sender region:", senderRegion)
   const districtsByRegion = (region) => {
     const regionDistricts = serviceCenters.filter((c) => c.region === region);
-    const districts = regionDistricts.map((d) => d.districts);
+    console.log("district:", regionDistricts)
+
+    const districts = regionDistricts.map((d) => d.district);
     return districts;
   };
 
