@@ -9,11 +9,11 @@ const Footer = () => {
        <Link to="/">
           <section className="flex items-end">
             <Logo/>
-            <h1 className="text-2xl font-bold pt-3 -mx-2">ZapShift</h1>
+            
           </section>
           </Link>
         <p className="font-bold">
-          ACME Industries Ltd.
+         
           <br />
           Providing reliable tech since 1992
         </p>

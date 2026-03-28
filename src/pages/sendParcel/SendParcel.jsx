@@ -1,25 +1,27 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm();
 
   const serviceCenters = useLoaderData();
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
-  const senderRegion = watch("senderRegion");
- console.log("sender region:", senderRegion)
+  const senderRegion = useWatch({ control, name: "senderRegion" });
+  const receiverRegion = useWatch({ control, name: "receiverRegion" });
+  console.log("receiver region:", receiverRegion)
+
   const districtsByRegion = (region) => {
     const regionDistricts = serviceCenters.filter((c) => c.region === region);
-    console.log("district:", regionDistricts)
 
     const districts = regionDistricts.map((d) => d.district);
+    console.log("districts:", districts)
     return districts;
   };
 
@@ -112,7 +114,7 @@ const SendParcel = () => {
               <select
                 {...register("senderRegion")}
                 defaultValue="Pick a browser"
-                className="select"
+                className="select input-primary w-full"
               >
                 <option disabled={true}>Select a region</option>
                 {regions.map((r, i) => (
@@ -130,7 +132,7 @@ const SendParcel = () => {
               <select
                 {...register("senderDistrict")}
                 defaultValue="Select a District"
-                className="select"
+                className="select input-primary w-full"
               >
                 <option disabled={true}>Select a District</option>
                 {districtsByRegion(senderRegion).map((r, i) => (
@@ -166,6 +168,40 @@ const SendParcel = () => {
               placeholder="Reciever Name"
             />
 
+            {/* receiver region */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Receiver Region</legend>
+              <select
+                {...register("receiverRegion")}
+                defaultValue="Pick a Region"
+                className="select input-primary w-full"
+              >
+                <option disabled={true}>Select a region</option>
+                {regions.map((r, i) => (
+                  <option key={i} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+              {/* <span className="label">Optional</span> */}
+            </fieldset>
+
+            {/* receiver district */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Receiver District</legend>
+              <select
+                {...register("receiverDistrict")}
+                defaultValue="Pick a District"
+                className="select input-primary w-full"
+              >
+                <option disabled={true}>Select a District</option>
+                {districtsByRegion(receiverRegion).map((d, i) => 
+                  <option key={i} value={d}>{d}</option>
+                )}
+              </select>
+              {/* <span className="label">Optional</span> */}
+            </fieldset>
+
             {/* reciever address */}
             <label className="label mt-4 text-secondary">
               Reciever Address{" "}
@@ -187,26 +223,6 @@ const SendParcel = () => {
               className="input input-primary w-full"
               placeholder="Your Valid Phone Number"
             />
-
-            {/* reciever district */}
-            <label className="label text-secondary mt-4">
-              Reciever District
-            </label>
-            <select
-              type="text"
-              {...register("recieverDistrict")}
-              className="select select-primary w-full"
-              placeholder="Reciever District"
-            >
-              <option value="">Dhaka</option>
-              <option value="">Chattogram</option>
-              <option value="">Rajshahi</option>
-              <option value="">Khulna</option>
-              <option value="">Barishal</option>
-              <option value="">Sylhet</option>
-              <option value="">Rangpur</option>
-              <option value="">Mymensingh</option>
-            </select>
 
             {/* reciever message */}
             <label className="label text-secondary mt-4">
