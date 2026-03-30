@@ -1,14 +1,20 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
+
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const serviceCenters = useLoaderData();
   const regionsDuplicate = serviceCenters.map((c) => c.region);
@@ -29,7 +35,7 @@ const SendParcel = () => {
     const isDocument = data.parcelType === "document";
     const parcelWeight = parseFloat(data.parcelWeight);
     const isSameDistrict = data.senderDistrict === data.receiverDistrict;
-
+    console.log("isSameDistrict", isSameDistrict);
     let cost = 0;
     if (isDocument) {
       cost = isSameDistrict ? 60 : 80;
@@ -46,6 +52,28 @@ const SendParcel = () => {
       }
     }
     console.log("cost", cost);
+
+    Swal.fire({
+      title: "Do you agree with the cost?",
+      text: `You will be charged ${cost} BDT!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, I am agree!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // save parcels infot to DB
+        axiosSecure.post("/parcels", data).then((res) => {
+          console.log("after saving parcel:", res.data);
+        });
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: "Your file has been deleted.",
+        //   icon: "success",
+        // });
+      }
+    });
   };
   return (
     <div>
@@ -105,8 +133,17 @@ const SendParcel = () => {
             <input
               type="text"
               {...register("senderName")}
+              defaultValue={user?.displayName}
               className="input input-primary w-full"
               placeholder="Sender Name"
+            />
+            <label className="label mt-4 text-secondary">Sender Email </label>
+            <input
+              type="email"
+              {...register("senderEmail")}
+              defaultValue={user?.email}
+              className="input input-primary w-full"
+              placeholder="example@mail.com"
             />
 
             {/* sender address */}
@@ -169,7 +206,7 @@ const SendParcel = () => {
             </label>
             <textarea
               type="text"
-              {...register("senderPhone")}
+              {...register("senderInstruction")}
               className="textarea input-primary w-full"
               placeholder="Pickup Instructions"
             />
