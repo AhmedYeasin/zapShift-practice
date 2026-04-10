@@ -1,3 +1,4 @@
+import { Cuboid } from "lucide-react";
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 
@@ -32,7 +33,7 @@ const DashboardLayout = () => {
           <div className="px-4">ZapShift Dashboard</div>
         </nav>
         {/* Page content here */}
-        <Outlet/>
+        <Outlet />
         <div className="p-4">Page Content</div>
       </div>
 
@@ -47,7 +48,8 @@ const DashboardLayout = () => {
           <ul className="menu w-full grow">
             {/* List item */}
             <li>
-              <Link to='/'
+              <Link
+                to="/"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Homepage"
               >
@@ -71,7 +73,14 @@ const DashboardLayout = () => {
 
             {/* our dashboard */}
             <li>
-                <NavLink to="/dashboard/my-parcels">My parcels</NavLink>
+              <NavLink
+                to="/dashboard/my-parcels"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="MyParcels"
+              >
+                <Cuboid className="size-4.5 -m-0.5" />
+                <span className="is-drawer-close:hidden">My Parcels</span>
+              </NavLink>
             </li>
 
             {/* List item */}
