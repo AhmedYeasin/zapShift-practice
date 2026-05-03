@@ -216,13 +216,13 @@ const SendParcel = () => {
           {/* reciever info: */}
 
           <fieldset className="fieldset my-5">
-            <h4 className="text-2xl font-semibold">Reciever Details</h4>
-            <label className="label text-secondary">Reciever Name </label>
+            <h4 className="text-2xl font-semibold">Receiver Details</h4>
+            <label className="label text-secondary">Receiver Name </label>
             <input
               type="text"
-              {...register("recieverName")}
+              {...register("receiverName")}
               className="input input-primary w-full"
-              placeholder="Reciever Name"
+              placeholder="Receiver Name"
             />
 
             {/* receiver region */}
@@ -261,29 +261,29 @@ const SendParcel = () => {
               {/* <span className="label">Optional</span> */}
             </fieldset>
 
-            {/* reciever address */}
+            {/* receiver address */}
             <label className="label mt-4 text-secondary">
-              Reciever Address{" "}
+              Receiver Address{" "}
             </label>
             <input
               type="text"
-              {...register("recieverAddress")}
+              {...register("receiverAddress")}
               className="input input-primary w-full"
-              placeholder="Reciever Address"
+              placeholder="Receiver Address"
             />
 
-            {/* reciever phone */}
+            {/* receiver phone */}
             <label className="label text-secondary mt-4">
-              Reciever Contact No.{" "}
+              Receiver Contact No.{" "}
             </label>
             <input
               type="text"
-              {...register("recieverPhone")}
+              {...register("receiverPhone")}
               className="input input-primary w-full"
               placeholder="Your Valid Phone Number"
             />
 
-            {/* reciever message */}
+            {/* receiver message */}
             <label className="label text-secondary mt-4">
               Delivery Instruction
             </label>
