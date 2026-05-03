@@ -2,6 +2,9 @@ import React from 'react';
 import useAuth from '../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { FaEdit } from "react-icons/fa";
+import { CgDetailsLess } from "react-icons/cg";
+import { MdDelete } from "react-icons/md";
 
 const MyParcels = () => {
     const { user } = useAuth();
@@ -40,8 +43,16 @@ const MyParcels = () => {
                                     <td>{parcel.parcelName}</td>
                                     <td>{parcel.cost}</td>
                                     <td>{parcel.receiverName}</td>
-                                    <td>
-
+                                    <td className=''>
+                                        <button className='btn btn-square hover:bg-primary'>
+                                        <FaEdit />
+                                        </button>
+                                        <button className='btn btn-square hover:bg-primary mx-2'>
+                                        <CgDetailsLess />
+                                        </button>
+                                        <button className='btn btn-square hover:bg-primary'>
+                                        <MdDelete />
+                                        </button>
                                     </td>
                                 </tr>)
                             }
