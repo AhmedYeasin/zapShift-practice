@@ -6,11 +6,12 @@ import { FaEdit } from "react-icons/fa";
 import { CgDetailsLess } from "react-icons/cg";
 import { MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
+import { Link } from 'react-router';
 
 const MyParcels = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const { data: parcels = [] , refetch} = useQuery({
+    const { data: parcels = [], refetch } = useQuery({
         queryKey: ['myParcels', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/parcels?email=${user?.email}`);
@@ -70,6 +71,8 @@ const MyParcels = () => {
                                 <th>Name</th>
                                 <th>Cost</th>
                                 <th>Receiver</th>
+                                <th>Payment Status</th>
+                                <th>Delivery Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -80,17 +83,26 @@ const MyParcels = () => {
                                     <td>{parcel.parcelName}</td>
                                     <td>{parcel.cost}</td>
                                     <td>{parcel.receiverName}</td>
+                                    <td>{
+                                        parcel.paymentStatus === 'paid' ? 
+                                        <span className=''>Paid</span> :
+                                        <Link to={`/dashboard/payment/${parcel._id}`}>
+                                        <button className="btn btn-sm btn-primary text-secondary">Pay</button>
+                                        </Link>
+                                    }</td>
+
+                                    <td>{parcel.deliveryStatus}</td>
 
                                     <td alt="action button" className=''>
-                                        <button className='btn btn-square hover:bg-primary'>
+                                        <button className='btn btn-square btn-sm hover:bg-primary'>
                                             <FaEdit />
                                         </button>
-                                        <button className='btn btn-square hover:bg-primary mx-2'>
+                                        <button className='btn btn-square btn-sm hover:bg-primary mx-2'>
                                             <CgDetailsLess />
                                         </button>
                                         <button
                                             onClick={() => handleParcelDelete(parcel._id)}
-                                            className='btn btn-square hover:bg-primary'>
+                                            className='btn btn-square btn-sm hover:bg-primary'>
                                             <MdDelete />
                                         </button>
                                     </td>
