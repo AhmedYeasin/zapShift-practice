@@ -5,6 +5,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FaEdit } from "react-icons/fa";
 import { CgDetailsLess } from "react-icons/cg";
 import { MdDelete } from "react-icons/md";
+import Swal from 'sweetalert2';
 
 const MyParcels = () => {
     const { user } = useAuth();
@@ -16,6 +17,28 @@ const MyParcels = () => {
             return res.data;
         }
     })
+
+
+    const handleParcelDelete = id => {
+        console.log(id)
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            textColor: "#03373D",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#CAEB66 ",
+            cancelButtonColor: "#03373D",
+            confirmButtonText: "Yes, delete it!" 
+        }).then((result) => {
+            // if (result.isConfirmed) Swal.fire({
+            //     title: "Deleted!",
+            //     text: "Your file has been deleted.",
+            //     icon: "success"
+            // });
+        });
+    }
     return (
         <div className='m-4 my-8'>
 
@@ -23,7 +46,7 @@ const MyParcels = () => {
             <div className=''>
                 <h2 className='text-2xl font-semibold'>Issued parcels : {parcels.length}</h2>
 
-                {/* parcel table */}
+                {/* parcel info table */}
                 <div className="overflow-x-auto my-8">
                     <table className="table table-zebra">
                         {/* head */}
@@ -43,15 +66,18 @@ const MyParcels = () => {
                                     <td>{parcel.parcelName}</td>
                                     <td>{parcel.cost}</td>
                                     <td>{parcel.receiverName}</td>
-                                    <td className=''>
+
+                                    <td alt="action button" className=''>
                                         <button className='btn btn-square hover:bg-primary'>
-                                        <FaEdit />
+                                            <FaEdit />
                                         </button>
                                         <button className='btn btn-square hover:bg-primary mx-2'>
-                                        <CgDetailsLess />
+                                            <CgDetailsLess />
                                         </button>
-                                        <button className='btn btn-square hover:bg-primary'>
-                                        <MdDelete />
+                                        <button
+                                            onClick={() => handleParcelDelete(parcel._id)}
+                                            className='btn btn-square hover:bg-primary'>
+                                            <MdDelete />
                                         </button>
                                     </td>
                                 </tr>)

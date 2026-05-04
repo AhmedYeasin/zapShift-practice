@@ -33,18 +33,19 @@ const Navbar = () => {
         <NavLink>Be a Rider</NavLink>
       </li>
 
-      {user && 
+      {user &&
         <>
           <li>
             <NavLink to="/dashboard/my-parcels">My Parcel</NavLink>
           </li>
         </>
       }
+    
     </>
   );
   return (
     <div>
-      <div className="navbar bg-base-100 shadow-sm rounded my-4">
+      <div className="navbar shadow-sm rounded my-4">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -82,7 +83,7 @@ const Navbar = () => {
         </div>
         <div className="navbar-end gap-4">
           {user ? (
-            <a onClick={handleSignOut} className="btn outline bg-white">
+            <a onClick={handleSignOut} className="btn outline hidden lg:flex bg-white">
               Sign Out
             </a>
           ) : (
