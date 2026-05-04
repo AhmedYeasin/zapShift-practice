@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 const MyParcels = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const { data: parcels = [] } = useQuery({
+    const { data: parcels = [] , refetch} = useQuery({
         queryKey: ['myParcels', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/parcels?email=${user?.email}`);
@@ -30,13 +30,27 @@ const MyParcels = () => {
             showCancelButton: true,
             confirmButtonColor: "#CAEB66 ",
             cancelButtonColor: "#03373D",
-            confirmButtonText: "Yes, delete it!" 
+            confirmButtonText: "Yes, delete it!"
         }).then((result) => {
-            // if (result.isConfirmed) Swal.fire({
-            //     title: "Deleted!",
-            //     text: "Your file has been deleted.",
-            //     icon: "success"
-            // });
+            if (result.isConfirmed) {
+
+
+                axiosSecure.delete(`/parcels/${id}`)
+                    .then(res => {
+
+                        if (res.data.deletedCount) {
+                            refetch();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+
+                        console.log(res.data)
+
+                    })
+            }
         });
     }
     return (
