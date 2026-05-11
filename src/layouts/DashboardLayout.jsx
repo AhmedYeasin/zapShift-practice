@@ -75,7 +75,7 @@ const DashboardLayout = () => {
             <li>
               <NavLink
                 to="/dashboard/my-parcels"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                className="my-1.5 is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="MyParcels"
               >
                 <Cuboid className="size-4.5 -m-0.5" />
