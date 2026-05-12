@@ -5,23 +5,36 @@ import Loading from "../../../components/Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 
 const Payment = () => {
-    const {parcelId} = useParams();
+    const { parcelId } = useParams();
     const axiosSecure = useAxiosSecure();
 
-    const {isLoading, data: parcel} = useQuery({
+    const { isLoading, data: parcel } = useQuery({
         queryKey: ['parcels', parcelId],
-        queryFn: async ()=>{
+        queryFn: async () => {
             const res = await axiosSecure.get(`/parcels/${parcelId}`);
             return res.data;
         }
     })
-    if (isLoading){
-        return <Loading/>
+
+    const handlePayment = async () => {
+        const paymentInfo = {
+            cost: parcel.cost,
+            parcelId: parcel._id,
+            senderEmail: parcel.senderEmail,
+            parcelName: parcel.parcelName,
+
+        }
+        const res = await axiosSecure.post('', paymentInfo)
+    }
+
+    if (isLoading) {
+        return <Loading />
     }
     return (
         <div className="m-4 my-8">
-                <h2> Pay for {parcel.parcelName}</h2>
-                <button className="btn btn-primary text-black my-6">Proceed to Pay</button>
+            <h2> Pay for {parcel.parcelName}</h2>
+            <p>Parcel amount: ${parcel.cost} </p>
+            <button className="btn btn-primary text-black my-6">Proceed to Pay</button>
         </div>
     )
 }
