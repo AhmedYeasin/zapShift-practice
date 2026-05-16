@@ -97,7 +97,7 @@ const MyParcels = () => {
                                     <td>{parcel.receiverName}</td>
                                     <td>{
                                         parcel.paymentStatus === 'paid' ?
-                                            <span className=''>Paid</span> :
+                                            <span className='bg-green-600 text-white p-2.5 rounded'>Paid</span> :
 
                                             <button onClick={() => handlePayment(parcel)} className="btn btn-sm btn-primary text-secondary">Pay</button>
 
