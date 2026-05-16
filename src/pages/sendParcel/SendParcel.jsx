@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
@@ -15,6 +15,8 @@ const SendParcel = () => {
 
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+
 
   const serviceCenters = useLoaderData();
   const regionsDuplicate = serviceCenters.map((c) => c.region);
@@ -61,12 +63,21 @@ const SendParcel = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, I am agree!",
+      confirmButtonText: "Confirm, proceed to payment!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // save parcels infot to DB
+        // save parcels info to DB
         axiosSecure.post("/parcels", data).then((res) => {
           console.log("after saving parcel:", res.data);
+          navigate('/dashboard/my-parcels')
+          if (res.data.insertedId) {
+            Swal.fire({
+              title: "Success!",
+              text: "Your parcel has been created.",
+              icon: "success",
+              timer: 2500,
+            });
+          }
         });
         // Swal.fire({
         //   title: "Deleted!",
